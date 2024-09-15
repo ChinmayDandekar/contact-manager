@@ -65,11 +65,19 @@ const DetailsBox = ({
     <DialogBox isOpen={isOpen}>
       <section
         className="w-full max-w-[500px] bg-white rounded-xl p-10 flex flex-col gap-2"
-        onClick={() => toggleIsOpen("")}
+        
       >
-        <h1 className="text-2xl font-bold text-indigo-600 mb-4">
-          {details.name}
-        </h1>
+        <div className="w-full flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold text-indigo-600 ">
+            {details.name}
+          </h1>
+          <h6
+            className="text-xs uppercase font-bold text-black cursor-pointer"
+            onClick={() => toggleIsOpen("")}
+          >
+            Close
+          </h6>
+        </div>
 
         {details.city && (
           <div className="w-full flex items-center justify-between">
@@ -92,7 +100,7 @@ const DetailsBox = ({
         <div className="w-full flex items-center justify-between">
           <h2 className="text-base font-bold text-black">Spam Likelihood:</h2>
           <h2 className="text-base font-bold text-black">
-            {details.spamLikelihood}
+            {parseFloat(details.spamLikelihood as string).toFixed(2)}
           </h2>
         </div>
         {details.email && (

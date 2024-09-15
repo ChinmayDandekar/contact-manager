@@ -26,7 +26,7 @@ type GlobalContactProps = {
             Spam Likelihood:
           </span>
           <h3 className="text-sm text-indigo-700 font-bold self-center">
-            {contact.spamLikelihood}
+            {parseFloat(contact.spamLikelihood).toFixed(2)}
           </h3>
         </div>
        
