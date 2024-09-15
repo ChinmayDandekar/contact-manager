@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  phone       String       @unique
+  city        String?
+  country     String?
+  password    String
+  isVerified  Boolean      @default(false)
+  otp         Int?
+  otpExpiry   DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  contacts    Contact[]
+  spamReports SpamReport[]
+
+  @@map("users")
+}
+
+model Contact {
+  id    Int    @id @default(autoincrement())
+  name  String
+  phone String
+
+  // Foreign Key to User
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model GlobalPhoneBook {
+  id             Int     @id @default(autoincrement())
+  phone          String
+  name           String
+  city           String?
+  country        String?
+  isUser         Boolean @default(false)
+  spamLikelihood Float   @default(0.0)
+}
+
+model SpamReport {
+  id     Int    @id @default(autoincrement())
+  phone  String
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+}
